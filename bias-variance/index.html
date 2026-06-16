@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Simulation Gallery</title>
+  <style>
+    :root{
+      --bg:#f5f6f8;
+      --panel:#ffffff;
+      --panel-2:#fafbfc;
+      --text:#17191c;
+      --muted:#5f6773;
+      --border:#d8dde6;
+      --accent:#1f4ea3;
+      --accent-soft:#eaf1ff;
+      --shadow:0 10px 30px rgba(18, 26, 40, 0.06);
+      --radius:14px;
+      --max:980px;
+    }
+
+    *{ box-sizing:border-box; }
+
+    html, body{
+      margin:0;
+      padding:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      line-height:1.5;
+    }
+
+    body{ padding:40px 20px 64px; }
+
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+    }
+
+    .back{
+      display:inline-block;
+      margin-bottom:18px;
+      color:var(--muted);
+      text-decoration:none;
+      font-size:14px;
+    }
+
+    .back:hover{ color:var(--accent); }
+
+    .hero{ margin-bottom:24px; }
+
+    h1{
+      margin:0 0 8px;
+      font-size:34px;
+      line-height:1.15;
+      font-family:Georgia,"Times New Roman",serif;
+      font-weight:700;
+      letter-spacing:0.01em;
+    }
+
+    .sub{
+      margin:0;
+      max-width:760px;
+      color:var(--muted);
+      font-size:15px;
+    }
+
+    .panel{
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:22px;
+    }
+
+    .section + .section{
+      margin-top:22px;
+      padding-top:22px;
+      border-top:1px solid var(--border);
+    }
+
+    .section-title{
+      margin:0 0 12px;
+      font-size:13px;
+      font-weight:700;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+
+    .dataset-grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:12px;
+    }
+
+    .dataset-btn{
+      width:100%;
+      min-width:0;
+      text-align:left;
+      border:1px solid var(--border);
+      background:var(--panel-2);
+      color:var(--text);
+      border-radius:12px;
+      padding:14px;
+      cursor:pointer;
+      transition:0.15s ease;
+    }
+
+    .dataset-btn:hover{
+      border-color:var(--accent);
+      transform:translateY(-1px);
+    }
+
+    .dataset-btn.active{
+      border-color:var(--accent);
+      background:var(--accent-soft);
+      box-shadow:inset 0 0 0 1px var(--accent-soft);
+    }
+
+    .dataset-name{
+      display:block;
+      font-weight:700;
+      font-size:15px;
+      margin-bottom:4px;
+    }
+
+    .dataset-meta,
+    .clip{
+      display:block;
+      min-width:0;
+      overflow:hidden;
+      white-space:nowrap;
+      text-overflow:ellipsis;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .metric-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .metric-btn{
+      border:1px solid var(--border);
+      background:var(--panel-2);
+      color:var(--text);
+      border-radius:999px;
+      padding:10px 16px;
+      cursor:pointer;
+      font:inherit;
+      transition:0.15s ease;
+    }
+
+    .metric-btn:hover{ border-color:var(--accent); }
+
+    .metric-btn.active{
+      background:var(--accent);
+      border-color:var(--accent);
+      color:#fff;
+    }
+
+    .summary{
+      display:grid;
+      grid-template-columns:1.3fr 1fr;
+      gap:14px;
+    }
+
+    .card{
+      min-width:0;
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:var(--panel-2);
+      padding:16px;
+    }
+
+    .label{
+      margin:0 0 6px;
+      font-size:12px;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      color:var(--muted);
+      font-weight:700;
+    }
+
+    .value{
+      margin:0;
+      font-size:16px;
+      font-weight:600;
+      min-width:0;
+    }
+
+    .mono{
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+      font-size:14px;
+      font-weight:500;
+    }
+
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:14px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:42px;
+      padding:0 16px;
+      border-radius:10px;
+      border:1px solid var(--accent);
+      text-decoration:none;
+      font-weight:600;
+      transition:0.15s ease;
+      cursor:pointer;
+    }
+
+    .btn-primary{
+      background:var(--accent);
+      color:#fff;
+    }
+
+    .btn-primary:hover{ filter:brightness(0.96); }
+
+    .btn-secondary{
+      background:#fff;
+      color:var(--accent);
+    }
+
+    .btn-secondary:hover{ background:var(--accent-soft); }
+
+    .quick-links{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .quick-link{
+      display:block;
+      min-width:0;
+      padding:12px;
+      border:1px solid var(--border);
+      border-radius:10px;
+      background:var(--panel-2);
+      text-decoration:none;
+      color:var(--text);
+      transition:0.15s ease;
+    }
+
+    .quick-link:hover{
+      border-color:var(--accent);
+      transform:translateY(-1px);
+    }
+
+    .quick-link strong{
+      display:block;
+      margin-bottom:4px;
+      font-size:14px;
+    }
+
+    .quick-link span{
+      display:block;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    @media (max-width:820px){
+      .dataset-grid,
+      .quick-links,
+      .summary{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <a class="back" href="../">← Back</a>
+
+    <div class="hero">
+      <h1>Simulation gallery</h1>
+      <p class="sub">
+        Select a simulation generator and switch between squared bias and variance.
+        All links use the logistic regression model.
+      </p>
+    </div>
+
+    <div class="panel">
+      <div class="section">
+        <h2 class="section-title">Generators</h2>
+        <div class="dataset-grid" id="datasetGrid"></div>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">Metric</h2>
+        <div class="metric-row" id="metricRow"></div>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">Current selection</h2>
+
+        <div class="summary">
+          <div class="card">
+            <p class="label">Generator</p>
+            <p class="value" id="datasetLabel"></p>
+          </div>
+
+          <div class="card">
+            <p class="label">Metric</p>
+            <p class="value" id="metricLabel"></p>
+          </div>
+
+          <div class="card" style="grid-column:1 / -1;">
+            <p class="label">File</p>
+            <p class="value mono clip" id="filePath"></p>
+
+            <div class="actions">
+              <a class="btn btn-primary" id="openLink" href="#">Open simulation</a>
+              <button class="btn btn-secondary" id="copyLink" type="button">Copy link</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="quick-links" id="quickLinks"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DATASETS = [
+      { key:"f2_tl", cls:"6-class", gen:"Generator 1", simid:"32993955013039740201065367455521256289798316034433680879034057974239280966362" },
+      { key:"f2_tr", cls:"6-class", gen:"Generator 2", simid:"4809671270476855952210955267578072743732154719824877432737302482905348475547" },
+      { key:"f2_bl", cls:"6-class", gen:"Generator 3", simid:"21058846706421649102013786436120711240772727888240321459826791980331024892107" },
+      { key:"f2_br", cls:"6-class", gen:"Generator 4", simid:"52854554759155356866124608620373503046910175073742541526702659068090243830056" },
+      { key:"f3_tl", cls:"7-class", gen:"Generator 1", simid:"46740025262664400170010037571718979152104697193920353418395985175978999166546" },
+      { key:"f3_tr", cls:"7-class", gen:"Generator 2", simid:"53455843516418765408960174407304355908953721956747948764381365756568146175860" },
+      { key:"f3_bl", cls:"7-class", gen:"Generator 3", simid:"45932407632833261625521107446282430173320778743327868550375466303150522369760" },
+      { key:"f3_br", cls:"7-class", gen:"Generator 4", simid:"12489175780025747152392377229814644268350214435231934413074034157813159663870" },
+      { key:"f9", cls:"8-class", gen:"Generator 1", simid:"33761279356273797778511928188446060466377942965505799173352342010636240852311" },
+      { key:"f10", cls:"9-class", gen:"Generator 1", simid:"110419469063603175368764080032581765619318785780519676756800016710819665785321" },
+      { key:"f11", cls:"10-class", gen:"Generator 1", simid:"43632327680187798062217975243642513841299383369925962153426305454809148021682" }
+    ];
+
+    const METRICS = [
+      { key:"bias2", label:"Squared bias" },
+      { key:"var", label:"Variance" }
+    ];
+
+    const MODEL = "lr";
+    const N = "5000";
+    const $ = id => document.getElementById(id);
+
+    let state = { dataset:"f2_tl", metric:"bias2" };
+
+    function getDataset(){
+      return DATASETS.find(d => d.key === state.dataset) || DATASETS[0];
+    }
+
+    function getMetric(){
+      return METRICS.find(m => m.key === state.metric) || METRICS[0];
+    }
+
+    function buildHref(datasetKey = state.dataset, metricKey = state.metric){
+      const d = DATASETS.find(x => x.key === datasetKey) || DATASETS[0];
+      return `${d.cls}/${d.simid}_${MODEL}_${metricKey}_n${N}.html`;
+    }
+
+    function renderDatasets(){
+      $("datasetGrid").innerHTML = DATASETS.map(d => `
+        <button class="dataset-btn ${d.key === state.dataset ? "active" : ""}" type="button" data-dataset="${d.key}">
+          <span class="dataset-name">${d.cls}</span>
+          <span class="dataset-meta">${d.gen}</span>
+          <span class="dataset-meta" title="${d.simid}">${d.simid}</span>
+        </button>
+      `).join("");
+
+      document.querySelectorAll("[data-dataset]").forEach(btn => {
+        btn.onclick = () => { state.dataset = btn.dataset.dataset; render(); };
+      });
+    }
+
+    function renderMetrics(){
+      $("metricRow").innerHTML = METRICS.map(m => `
+        <button class="metric-btn ${m.key === state.metric ? "active" : ""}" type="button" data-metric="${m.key}">
+          ${m.label}
+        </button>
+      `).join("");
+
+      document.querySelectorAll("[data-metric]").forEach(btn => {
+        btn.onclick = () => { state.metric = btn.dataset.metric; render(); };
+      });
+    }
+
+    function renderSummary(){
+      const d = getDataset();
+      const m = getMetric();
+      const href = buildHref();
+
+      $("datasetLabel").textContent = `${d.cls}, ${d.gen}`;
+      $("metricLabel").textContent = m.label;
+      $("filePath").textContent = href;
+      $("filePath").title = href;
+      $("openLink").href = href;
+
+      $("quickLinks").innerHTML = METRICS.map(metric => {
+        const link = buildHref(d.key, metric.key);
+        return `<a class="quick-link" href="${link}"><strong>${metric.label}</strong><span class="clip" title="${link}">${link}</span></a>`;
+      }).join("");
+
+      history.replaceState(null, "", `?${new URLSearchParams({ dataset:d.key, metric:m.key })}`);
+    }
+
+    function loadFromUrl(){
+      const q = new URLSearchParams(location.search);
+      if (DATASETS.some(d => d.key === q.get("dataset"))) state.dataset = q.get("dataset");
+      if (METRICS.some(m => m.key === q.get("metric"))) state.metric = q.get("metric");
+    }
+
+    function render(){
+      renderDatasets();
+      renderMetrics();
+      renderSummary();
+    }
+
+    $("copyLink").onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(new URL(buildHref(), location.href).href);
+        $("copyLink").textContent = "Copied";
+      } catch {
+        $("copyLink").textContent = "Copy failed";
+      }
+      setTimeout(() => $("copyLink").textContent = "Copy link", 1200);
+    };
+
+    loadFromUrl();
+    render();
+  </script>
+</body>
+</html>
