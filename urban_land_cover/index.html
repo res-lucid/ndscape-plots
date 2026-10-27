@@ -1,17 +1,21 @@
 ---
+title: "Urban Land Cover, 9 classes: nested dichotomy maps"
+description: "Interactive ndscape maps of test accuracy and prediction variance for 15,000 sampled nested dichotomies (NDs) on the Urban Land Cover data."
 ---
 <!doctype html>
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Dataset index</title>
+  <title>{{ page.title }}</title>
+  <meta name="description" content="{{ page.description }}">
+  <link rel="canonical" href="https://res-lucid.github.io/ndscape-plots/urban_land_cover/">
   <style>
     body { font-family: Arial, sans-serif; margin: 40px; }
     li { margin: 8px 0; }
   </style>
 </head>
 <body>
-  <h1>Dataset index</h1>
+  <h1>{{ page.title }}</h1>
 
   <ul>
     {% assign current_dir = page.dir | remove_first: "/" %}
